@@ -1,128 +1,395 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8">
+<html lang="ko">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>금융권 임원·직원 보수 랭킹 (DART)</title>
+<title>금융권 보수 랭킹 · DART 공시 기반</title>
+<meta name="description" content="증권·자산운용·은행·캐피탈·금융지주의 임원·직원 보수 공시(DART)를 한눈에. 2024·2025 사업연도와 2026 반기.">
+<meta property="og:title" content="금융권 보수 랭킹 · DART 공시 기반">
+<meta property="og:description" content="증권·자산운용·은행·캐피탈·금융지주의 임원·직원 보수 공시를 한눈에 비교하세요.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d4e89'/%3E%3Crect x='14' y='34' width='10' height='16' rx='2' fill='%23fff'/%3E%3Crect x='27' y='22' width='10' height='28' rx='2' fill='%23fff'/%3E%3Crect x='40' y='12' width='10' height='38' rx='2' fill='%2354a0ff'/%3E%3C/svg%3E">
 <style>
-body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;margin:0;background:#f5f6f8;color:#222}
-header{background:#1f3a5f;color:#fff;padding:18px 24px}
-header h1{margin:0 0 6px;font-size:20px}
-header p{margin:2px 0;font-size:12.5px;opacity:.92}
-main{padding:16px 24px}
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
-.bar label{font-size:14px;font-weight:600}
-select{font-size:14px;padding:6px 10px;border:1px solid #9aa7b8;border-radius:6px;background:#fff}
-button.tab{border:1px solid #9aa7b8;background:#fff;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:14px}
-button.tab.on{background:#1f3a5f;color:#fff;border-color:#1f3a5f}
-.card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:12px 14px;margin-bottom:14px;overflow-x:auto}
+:root{
+  --bg:#f3f5f9;--card:#ffffff;--ink:#0f172a;--ink2:#475569;--muted:#8592a6;--line:#e6eaf1;--soft:#f6f8fb;
+  --accent:#2a78d6;--accent-ink:#ffffff;--accent-soft:rgba(42,120,214,.12);--bar:#7fb0ec;
+  --hero1:#0b1f3d;--hero2:#18457f;--hero3:#2a78d6;
+  --gold:#f5b400;--silver:#aab4c4;--bronze:#c9803f;
+  --c-증권:#2a78d6;--c-자산운용:#1baf7a;--c-은행:#eb6834;--c-캐피탈:#e87ba4;--c-지주:#6250d6;
+  --shadow:0 1px 2px rgba(15,23,42,.05),0 6px 22px rgba(15,23,42,.06);
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0d1117;--card:#161b22;--ink:#eef1f6;--ink2:#b4bcc9;--muted:#7c8696;--line:#252c37;--soft:#1b212b;
+  --accent:#3987e5;--accent-ink:#0d1117;--accent-soft:rgba(57,135,229,.18);--bar:#2f5f9e;
+  --hero1:#070d18;--hero2:#0f2a52;--hero3:#1f5fae;
+  --c-증권:#3987e5;--c-자산운용:#199e70;--c-은행:#d95926;--c-캐피탈:#d55181;--c-지주:#9085e9;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 22px rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;font-size:15px}
+button,select,input{font-family:inherit;font-size:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* hero */
+.hero{background:linear-gradient(135deg,var(--hero1) 0%,var(--hero2) 55%,var(--hero3) 120%);color:#fff;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.06)}
+.hero::before{width:380px;height:380px;right:-90px;top:-170px}
+.hero::after{width:240px;height:240px;right:180px;bottom:-150px;background:rgba(255,255,255,.04)}
+.hero .wrap{position:relative;padding-top:26px;padding-bottom:70px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;opacity:.9}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:4px 11px;border-radius:99px;font-size:12.5px;backdrop-filter:blur(4px)}
+.topbtns{display:flex;gap:8px}
+.ghost{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:99px;padding:5px 13px;cursor:pointer;font-size:12.5px;transition:background .15s}
+.ghost:hover{background:rgba(255,255,255,.22)}
+.hero h1{font-size:clamp(26px,4.2vw,40px);line-height:1.2;margin:22px 0 10px;letter-spacing:-.02em;font-weight:800}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#8fc3ff,#cfe5ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0;max-width:680px;font-size:15.5px;opacity:.88}
+.hero .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+
+/* main layout (overlaps hero) */
+main{margin-top:-44px;position:relative;padding-bottom:50px}
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.panel{padding:18px 20px;margin-bottom:16px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl[hidden]{display:none}
+.ctl>label{font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.seg{display:inline-flex;background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+.seg button{background:transparent;border:0;border-radius:8px;padding:7px 13px;cursor:pointer;color:var(--ink2);font-weight:600;font-size:13.5px;white-space:nowrap;transition:all .15s}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(15,23,42,.14)}
+.search{position:relative;flex:1;min-width:200px}
+.search input{width:100%;background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:10px 12px 10px 36px;outline:none;transition:border-color .15s,box-shadow .15s}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+
+/* sector cards */
+.sectors{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;text-align:left;box-shadow:var(--shadow);transition:transform .15s,border-color .15s;position:relative;overflow:hidden}
+.sec:hover{transform:translateY(-2px)}
+.sec::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--sc,var(--muted))}
+.sec[aria-pressed="true"]{border-color:var(--sc,var(--accent));box-shadow:0 0 0 2px var(--sc,var(--accent)) inset,var(--shadow)}
+.sec .nm{font-size:12.5px;color:var(--ink2);font-weight:700;display:flex;align-items:center;gap:6px}
+.sec .big{font-size:21px;font-weight:800;margin-top:4px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sec .big small{font-size:12px;font-weight:600;color:var(--muted);margin-left:2px}
+.sec .sub{font-size:11.5px;color:var(--muted);margin-top:1px;font-variant-numeric:tabular-nums}
+.sec.all{--sc:var(--accent)}
+
+/* kpi strip */
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.kpi{flex:1;min-width:150px;padding:12px 16px}
+.kpi span{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.kpi b{display:block;font-size:20px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi b small{font-size:12.5px;font-weight:600;color:var(--ink2);margin-left:6px}
+
+/* list */
+.listcard{overflow:hidden;margin-bottom:16px}
+.listhead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 20px 10px;flex-wrap:wrap}
+.listhead h2{margin:0;font-size:17px;letter-spacing:-.01em}
+.listhead .cnt{font-size:12.5px;color:var(--muted)}
+.row{display:grid;grid-template-columns:54px minmax(130px,1.25fr) minmax(150px,1.15fr) 96px minmax(170px,1.5fr);gap:12px;align-items:center;padding:11px 20px;border-top:1px solid var(--line);transition:background .12s}
+.row:hover{background:var(--soft)}
+.row.head{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.03em;background:var(--soft);padding-top:8px;padding-bottom:8px}
+.row.head:hover{background:var(--soft)}
+.rk{display:flex;justify-content:center}
+.rk i{font-style:normal;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.rk i.m1{background:var(--gold);color:#3b2a00}.rk i.m2{background:var(--silver);color:#1d2430}.rk i.m3{background:var(--bronze);color:#fff}
+.who b{display:block;font-size:15px;letter-spacing:-.01em}
+.who span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.co{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:2px 9px 2px 7px;border-radius:99px;background:var(--soft);border:1px solid var(--line);color:var(--ink2);white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sc,var(--muted))}
+.yr{font-size:12.5px;color:var(--ink2);font-weight:600}
+.yr span{display:inline-block;background:var(--accent-soft);color:var(--ink);padding:2px 9px;border-radius:7px}
+.amt{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.bar{flex:1;height:8px;border-radius:99px;background:var(--soft);overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bar),var(--accent))}
+.amt b{font-size:16px;min-width:76px;text-align:right;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.amt b small{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:1px}
+.more{display:flex;justify-content:center;padding:14px;border-top:1px solid var(--line)}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:11px;padding:9px 20px;font-weight:700;cursor:pointer;transition:filter .15s}
+.btn:hover{filter:brightness(1.08)}
+.btn.sec2{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.empty{padding:46px 20px;text-align:center;color:var(--muted)}
+
+/* company table */
+.tw{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
-th,td{padding:7px 8px;border-bottom:1px solid #e6e9ee;text-align:left;white-space:nowrap}
-th{background:#eef2f7}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.muted{color:#777;font-size:12px}
-.kpi{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.kpi div{background:#fff;border-radius:8px;padding:8px 12px;box-shadow:0 1px 3px rgba(0,0,0,.08);font-size:13px}
-.kpi b{font-size:16px;display:block}
-.warn{background:#fff6e0;border:1px solid #f0d28a;padding:8px 12px;border-radius:6px;font-size:12.5px;margin-bottom:12px}
-.st-no{color:#999}
-</style></head>
+th,td{padding:10px 12px;text-align:left;white-space:nowrap;border-top:1px solid var(--line)}
+th{font-size:11.5px;color:var(--muted);font-weight:700;background:var(--soft);letter-spacing:.03em;position:sticky;top:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:var(--soft)}
+td .mini{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+td .mini .bar{max-width:90px;height:7px}
+td b{font-weight:700}
+
+/* details */
+details.card{padding:0;margin-bottom:16px;overflow:hidden}
+details summary{list-style:none;cursor:pointer;padding:15px 20px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"＋";color:var(--muted);font-weight:400}
+details[open] summary::after{content:"－"}
+details .inner{padding:0 0 4px}
+.note{padding:6px 20px 18px;color:var(--ink2);font-size:13.5px}
+.note ul{margin:0;padding-left:18px}.note li{margin:5px 0}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:7px}
+.pill.ok{background:rgba(27,175,122,.14);color:var(--ink)}.pill.no{background:var(--soft);color:var(--muted)}
+
+footer{color:var(--muted);font-size:12.5px;text-align:center;padding:6px 20px 40px}
+footer a{color:var(--accent);text-decoration:none}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:13.5px;opacity:0;pointer-events:none;transition:all .25s;z-index:20}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:960px){
+  .sectors{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:720px){
+  .wrap{padding:0 14px}
+  .hero .wrap{padding-bottom:62px}
+  .controls{gap:12px}
+  .seg{max-width:100%;overflow-x:auto}
+  .sectors{grid-template-columns:repeat(2,1fr)}
+  .row.head{display:none}
+  .row{grid-template-columns:40px 1fr auto;grid-template-areas:"rk who amt" "rk co yr";gap:4px 10px;padding:12px 14px}
+  .rk{grid-area:rk;align-self:start}.who{grid-area:who}.co{grid-area:co}.yr{grid-area:yr;text-align:right}.amt{grid-area:amt;flex-direction:column;align-items:flex-end;gap:5px}
+  .amt .bar{width:110px;flex:none;order:2}
+  .amt b{font-size:15.5px}
+  .listhead{padding:14px 14px 8px}
+  .panel{padding:14px}
+}
+</style>
+</head>
 <body>
-<header>
-<h1>금융권 임원·직원 보수 랭킹 — 증권·자산운용·은행·캐피탈·지주</h1>
-<p>출처: 금융감독원 전자공시시스템(DART) · 임원: 「보수지급금액 5억원 이상 개인별 보수」 · 직원: 「직원 현황」</p>
-<p>기간: 2024 사업연도 · 2025 사업연도(연간) · 2026 반기(1~6월, 6개월치)</p>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topline">
+      <span class="badge">📊 DART 전자공시 기반</span>
+      <div class="topbtns">
+        <button class="ghost" id="copy" type="button">🔗 링크 복사</button>
+        <button class="ghost" id="theme" type="button" aria-label="다크 모드 전환">🌙 다크</button>
+      </div>
+    </div>
+    <h1>금융권 <em>보수 랭킹</em></h1>
+    <p>증권·자산운용·은행·캐피탈·금융지주의 임원과 직원 보수 공시를 한곳에서 비교하세요. 사업연도와 업권을 골라 순위를 바로 확인할 수 있습니다.</p>
+    <div class="chips">
+      <span class="badge">2024·2025 사업보고서</span>
+      <span class="badge">2026 반기보고서</span>
+      <span class="badge">보수 5억원 이상 개인 공시</span>
+    </div>
+  </div>
 </header>
-<main>
-<div class="warn">
-· <b>개인 보수 랭킹</b>에는 DART가 개인별로 공시한 사람만 들어갑니다. 보수 5억원 이상인 임원·직원이 대상이며(회사당 상위 최대 5명), 공시되지 않은 직원의 보수는 알 수 없습니다. 업권 전체 평균이 아닙니다.<br>
-· <b>직원 수치</b>는 개인이 아니라 회사 전체의 직원 현황입니다(직원 수, 1인 평균 급여, 평균 근속). 개인별 직원 보수는 공시 대상이 아닙니다.<br>
-· <b>2026 반기</b> 금액은 6개월치라 연간 금액과 직접 비교할 수 없습니다. 근속은 공시 표기(년·개월)를 년으로 환산했습니다.<br>
-· 투자 판단 자료가 아닙니다.
-</div>
-<div class="bar">
-  <label for="view">보기</label>
-  <select id="view" onchange="setV(this.value)">
-    <option value="exec">개인 보수 랭킹 (임원·직원, 5억 이상 공시)</option>
-    <option value="co">회사별 종합 (임원 + 직원)</option>
-  </select>
-  <label for="yr">사업연도</label>
-  <select id="yr" onchange="setY(this.value)"></select>
-  <span id="sortwrap"></span>
-</div>
-<div class="bar" id="tabs"></div>
-<div class="kpi" id="kpi"></div>
-<div class="card"><h3 id="ttl" style="margin:4px 0 8px;font-size:15px"></h3><div id="rank"></div></div>
-<div class="card"><h3 style="margin:4px 0 8px;font-size:15px">회사별 공시 현황</h3><div id="cov"></div></div>
+
+<main class="wrap">
+  <section class="card panel" aria-label="조건">
+    <div class="controls">
+      <div class="ctl"><label>보기</label>
+        <div class="seg" id="seg-v"></div></div>
+      <div class="ctl"><label>사업연도</label>
+        <div class="seg" id="seg-y"></div></div>
+      <div class="ctl" id="ctl-s" hidden><label>정렬 기준</label>
+        <div class="seg" id="seg-s"></div></div>
+      <div class="ctl search" style="min-width:210px"><label>검색</label>
+        <div style="position:relative"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="회사·이름·직위" autocomplete="off"></div></div>
+    </div>
+  </section>
+
+  <section class="sectors" id="sectors" aria-label="업권 선택"></section>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="card listcard" aria-live="polite">
+    <div class="listhead"><h2 id="ttl"></h2><span class="cnt" id="cnt"></span></div>
+    <div id="list"></div>
+  </section>
+
+  <details class="card">
+    <summary>회사별 공시 현황 보기</summary>
+    <div class="inner tw" id="cov"></div>
+  </details>
+
+  <details class="card">
+    <summary>데이터 기준 및 유의사항</summary>
+    <div class="note"><ul>
+      <li><b>개인 보수 랭킹</b>은 DART가 개인별로 공시한 사람만 포함합니다. 보수 5억원 이상인 임원·직원이 대상이며 회사당 상위 최대 5명입니다. 공시되지 않은 직원의 개인 보수는 알 수 없고, 업권 전체 평균도 아닙니다.</li>
+      <li><b>직원 수치</b>(직원 수·1인 평균 급여·근속)는 개인이 아니라 회사 전체의 직원 현황입니다.</li>
+      <li><b>2026 반기</b> 금액은 6개월치라 연간 금액과 직접 비교할 수 없습니다. 반기 항목이 없거나 미접수인 회사는 "없음/미확인"입니다.</li>
+      <li>보수총액은 DART 공시 기준이며 성과급·주식보상 포함 여부는 공시 구조에 따릅니다. 단위는 억원입니다.</li>
+      <li>대상 회사는 임의로 선정했고, 법인명을 찾지 못한 회사는 제외했습니다. 일부 값은 원문과 대조가 필요할 수 있습니다.</li>
+      <li>투자 판단 자료가 아닙니다.</li>
+    </ul></div>
+  </details>
 </main>
+
+<footer>출처: <a href="https://dart.fss.or.kr/" target="_blank" rel="noopener">금융감독원 전자공시시스템(DART)</a> · 페이지 생성일 2026-11-13</footer>
+<div class="toast" id="toast"></div>
+
 <script>
 const DATA=[{"group":"증권","name":"미래에셋증권","code":"00111722","periods":{"2024":{"status":"있음","persons":[{"name":"최현만","position":"고문","won":6697000000},{"name":"김연추","position":"부사장","won":2260000000},{"name":"이만열","position":"고문","won":1151000000},{"name":"허선호","position":"부회장","won":1149000000},{"name":"김미섭","position":"부회장","won":1042000000}],"emp":{"headcount":3298,"salary_won":455641000000,"avg_tenure":15.8,"avg_salary_won":138156762},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"주용국","position":"前 부사장","won":4108000000},{"name":"김미섭","position":"부회장","won":1943000000},{"name":"허선호","position":"부회장","won":1751000000},{"name":"김동춘","position":"前 상무","won":1486000000},{"name":"안인성","position":"前 부사장","won":1259000000}],"emp":{"headcount":3310,"salary_won":543283000000,"avg_tenure":15.7,"avg_salary_won":164133837},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김미섭","position":"부회장","won":2344000000}],"emp":{"headcount":3330,"salary_won":440612000000,"avg_tenure":15.6,"avg_salary_won":132315916},"empStatus":"있음"}}},{"group":"증권","name":"삼성증권","code":"00104856","periods":{"2024":{"status":"있음","persons":[{"name":"강정구","position":"수석","won":9324000000},{"name":"이재현","position":"前)부사장","won":2240000000},{"name":"박종문","position":"대표이사","won":1591000000},{"name":"신윤철","position":"영업지점장","won":1328000000},{"name":"노혜란","position":"영업지점장","won":1237000000}],"emp":{"headcount":2565,"salary_won":396430000000,"avg_tenure":12.2,"avg_salary_won":154553606},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"노혜란","position":"영업지점장","won":1817000000},{"name":"박종문","position":"대표이사","won":1804000000},{"name":"신윤철","position":"영업지점장","won":1698000000},{"name":"이종완","position":"前)이사","won":1314000000},{"name":"천정환","position":"상무","won":1042000000}],"emp":{"headcount":2614,"salary_won":432110000000,"avg_tenure":13.1,"avg_salary_won":165306044},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"박종문","position":"대표이사","won":604000000}],"emp":{"headcount":2617,"salary_won":282683000000,"avg_tenure":13.2,"avg_salary_won":108017959},"empStatus":"있음"}}},{"group":"증권","name":"키움증권","code":"00296290","periods":{"2024":{"status":"있음","persons":[{"name":"황현순","position":"前 대표이사 사장","won":1411298573},{"name":"김대욱","position":"상무보","won":1281882156},{"name":"홍완기","position":"상무보","won":1085962469},{"name":"박동진","position":"부장","won":949930864},{"name":"박연채","position":"前 부사장","won":923307967}],"emp":{"headcount":987,"salary_won":115968701123,"avg_tenure":6.6,"avg_salary_won":117496151},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"박동진","position":"부장","won":2185185843},{"name":"홍완기","position":"상무","won":1834073362},{"name":"김대욱","position":"상무","won":1307084704},{"name":"장미루","position":"이사","won":1237756707},{"name":"이정호","position":"차장","won":1186429413}],"emp":{"headcount":1190,"salary_won":156357815521,"avg_tenure":6.1,"avg_salary_won":131393122},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"엄주성","position":"대표이사 사장","won":644238165}],"emp":{"headcount":1292,"salary_won":125771893280,"avg_tenure":6,"avg_salary_won":97346667},"empStatus":"있음"}}},{"group":"증권","name":"NH투자증권","code":"00120182","periods":{"2024":{"status":"있음","persons":[{"name":"윤병운","position":"現)대표이사","won":1726000000},{"name":"정영채","position":"前)대표이사","won":5949000000},{"name":"송원용","position":"이사대우","won":1755000000},{"name":"송창하","position":"상무","won":1602000000},{"name":"심기필","position":"전무","won":1453000000}],"emp":{"headcount":3121,"salary_won":496124000000,"avg_tenure":14,"avg_salary_won":158963153},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"신동섭","position":"상무","won":2008000000},{"name":"윤병운","position":"대표이사","won":1930000000},{"name":"이혜영","position":"이사대우","won":1709000000},{"name":"서재영","position":"상무대우","won":1583000000},{"name":"우창헌","position":"부부장","won":1514000000}],"emp":{"headcount":3137,"salary_won":574010000000,"avg_tenure":13.7,"avg_salary_won":182980555},"empStatus":"있음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":{"headcount":3162,"salary_won":386007000000,"avg_tenure":13.6,"avg_salary_won":122076850},"empStatus":"있음"}}},{"group":"증권","name":"한국투자증권","code":"00160144","periods":{"2024":{"status":"있음","persons":[{"name":"정일문","position":"부회장","won":3366109000},{"name":"김남구","position":"회장","won":2315907000},{"name":"이정란","position":"차장S","won":2194881000},{"name":"배영규","position":"고문","won":1205345000},{"name":"김성환","position":"사장","won":1194713000}],"emp":{"headcount":2819,"salary_won":399199274722,"avg_tenure":11.8,"avg_salary_won":141610243},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김남구","position":"회장","won":4896405000},{"name":"이정란","position":"차장S","won":4027266000},{"name":"정일문","position":"부회장","won":3914461000},{"name":"김성환","position":"사장","won":2936783000},{"name":"전영준","position":"차장S","won":1875645000}],"emp":{"headcount":2793,"salary_won":514109537676,"avg_tenure":12.1,"avg_salary_won":184070726},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김남구","position":"회장","won":2955000000},{"name":"김성환","position":"사장","won":4589000000}],"emp":{"headcount":2798,"salary_won":444801636574,"avg_tenure":12.2,"avg_salary_won":158971278},"empStatus":"있음"}}},{"group":"증권","name":"대신증권","code":"00110893","periods":{"2024":{"status":"있음","persons":[{"name":"양 홍 석","position":"부회장","won":3467000000},{"name":"이 어 룡","position":"회 장","won":3225000000},{"name":"오 익 근","position":"대표이사","won":1237000000},{"name":"박 용 재","position":"상담실장","won":992000000},{"name":"송 혁","position":"부사장","won":818000000}],"emp":{"headcount":1404,"salary_won":169227000000,"avg_tenure":15.7,"avg_salary_won":120532051},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"양 홍 석","position":"부회장","won":5420000000},{"name":"이 어 룡","position":"회 장","won":4538000000},{"name":"오 익 근","position":"대표이사","won":1670000000},{"name":"송 혁","position":"사 장","won":1159000000},{"name":"김 범 철","position":"부사장","won":1114000000}],"emp":{"headcount":1432,"salary_won":186303000000,"avg_tenure":16.7,"avg_salary_won":130099860},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"오익근","position":"前 대표이사사장","won":2444000000},{"name":"양홍석","position":"부회장","won":1577000000},{"name":"송 혁","position":"사 장","won":577000000}],"emp":{"headcount":1444,"salary_won":115301000000,"avg_tenure":14.9,"avg_salary_won":79848338},"empStatus":"있음"}}},{"group":"증권","name":"신한투자증권","code":"00138321","periods":{"2024":{"status":"있음","persons":[{"name":"안석철","position":"그룹대표(전무)","won":1959000000},{"name":"임태훈","position":"전무","won":1605000000},{"name":"이정민","position":"센터장(상무)","won":1536000000},{"name":"허관","position":"상무","won":1345000000},{"name":"곽일환","position":"본부장(상무보)","won":1243000000}],"emp":{"headcount":2616,"salary_won":353757000000,"avg_tenure":12.5,"avg_salary_won":135228211},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이정민","position":"센터장(상무)","won":3429000000},{"name":"곽일환","position":"본부장(상무보)","won":2699000000},{"name":"안석철","position":"그룹대표(부사장)","won":2610000000},{"name":"박준규","position":"부서장직무대리","won":1736000000},{"name":"정범식","position":"디렉팅매니저","won":1444000000}],"emp":{"headcount":2574,"salary_won":380693000000,"avg_tenure":12.9,"avg_salary_won":147899378},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"이정민","position":"센터장(전무)","won":2836000000}],"emp":{"headcount":2626,"salary_won":283019000000,"avg_tenure":12.8,"avg_salary_won":107775704},"empStatus":"있음"}}},{"group":"증권","name":"하나증권","code":"00113465","periods":{"2024":{"status":"있음","persons":[{"name":"김동현","position":"상무대우","won":2890000000},{"name":"이현집","position":"영업이사","won":1719000000},{"name":"박문환","position":"영업이사","won":1665000000},{"name":"김태성","position":"영업상무","won":1463000000},{"name":"김용기","position":"부장","won":1189000000}],"emp":{"headcount":1769,"salary_won":233448000000,"avg_tenure":11.1,"avg_salary_won":131966083},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김동현","position":"상무대우","won":2176000000},{"name":"김용기","position":"부장","won":1899000000},{"name":"김태성","position":"영업상무","won":1815000000},{"name":"권영제","position":"상무대우","won":1791000000},{"name":"박문환","position":"영업이사","won":1509000000}],"emp":{"headcount":1746,"salary_won":256645000000,"avg_tenure":10.9,"avg_salary_won":146990263},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"강성묵","position":"대표이사","won":536000000}],"emp":{"headcount":1813,"salary_won":212060000000,"avg_tenure":10.4,"avg_salary_won":116966354},"empStatus":"있음"}}},{"group":"증권","name":"메리츠증권","code":"00163682","periods":{"2024":{"status":"있음","persons":[{"name":"김기형","position":"前사장","won":14851218000},{"name":"김경성","position":"前부사장","won":8992434000},{"name":"황태영","position":"前부사장","won":5398469000},{"name":"윤창식","position":"영업이사","won":4645072000},{"name":"칼 코쉬니스키","position":"前전무","won":4205620000}],"emp":{"headcount":1463,"salary_won":288767063000,"avg_tenure":7.4,"avg_salary_won":197380084},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"윤창식","position":"영업이사","won":8901053000},{"name":"문필복","position":"전무","won":3979825000},{"name":"이세훈","position":"부사장","won":3898706000},{"name":"곽영권","position":"부사장","won":3893072000},{"name":"여은석","position":"부사장","won":3808422000}],"emp":{"headcount":1593,"salary_won":323903670000,"avg_tenure":6.5,"avg_salary_won":203329360},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"장원재","position":"대표이사 사장","won":1493000000}],"emp":{"headcount":1710,"salary_won":276206379000,"avg_tenure":6.2,"avg_salary_won":161524198},"empStatus":"있음"}}},{"group":"증권","name":"유안타증권","code":"00117601","periods":{"2024":{"status":"있음","persons":[{"name":"이종석","position":"리테일전담이사","won":8332000000},{"name":"신승호","position":"차장","won":4180000000},{"name":"박환진","position":"리테일전담이사","won":2309000000},{"name":"궈밍쩡","position":"기타비상무이사","won":1963000000},{"name":"이재윤","position":"부장","won":1209000000}],"emp":{"headcount":1744,"salary_won":208530000000,"avg_tenure":12.8,"avg_salary_won":119569954},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이종석","position":"리테일전담이사","won":7432000000},{"name":"구기일","position":"리테일전담이사","won":4197000000},{"name":"박환진","position":"리테일전담이사","won":1760000000},{"name":"이재윤","position":"부장","won":1828000000},{"name":"신승호","position":"차장","won":1625000000}],"emp":{"headcount":1777,"salary_won":242009000000,"avg_tenure":12.7,"avg_salary_won":136189645},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"뤄즈펑","position":"대표이사","won":929000000}],"emp":{"headcount":1804,"salary_won":269086000000,"avg_tenure":12.3,"avg_salary_won":149160754},"empStatus":"있음"}}},{"group":"증권","name":"현대차증권","code":"00137997","periods":{"2024":{"status":"있음","persons":[{"name":"황인우","position":"책임매니저","won":1638000000},{"name":"배형근","position":"사장","won":1197000000},{"name":"최정순","position":"전문상무","won":1025000000},{"name":"박철민","position":"상무","won":939000000},{"name":"기봉운","position":"전문상무","won":765000000}],"emp":{"headcount":898,"salary_won":104968000000,"avg_tenure":8.5,"avg_salary_won":116890869},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"배형근","position":"대표이사","won":1467000000},{"name":"최정순","position":"전문상무","won":1341000000},{"name":"고영진","position":"전문상무","won":1281000000},{"name":"황인우","position":"책임매니저","won":1052000000},{"name":"홍성현","position":"책임매니저","won":949000000}],"emp":{"headcount":888,"salary_won":105984000000,"avg_tenure":9.4,"avg_salary_won":119351351},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"고영진","position":"전문상무","won":2157000000}],"emp":{"headcount":811,"salary_won":68381000000,"avg_tenure":9.5,"avg_salary_won":84316893},"empStatus":"있음"}}},{"group":"증권","name":"한화투자증권","code":"00148610","periods":{"2024":{"status":"있음","persons":[{"name":"김근영","position":"전무","won":962000000},{"name":"이한솔","position":"차장","won":820000000},{"name":"한두희","position":"대표이사","won":786000000},{"name":"김용민","position":"부장","won":735000000},{"name":"최용석","position":"부사장","won":693000000}],"emp":{"headcount":1043,"salary_won":65370000000,"avg_tenure":13.3,"avg_salary_won":62674976},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"유재석","position":"상무","won":1261000000},{"name":"한두희","position":"상근고문","won":1198000000},{"name":"이한솔","position":"차장","won":980000000},{"name":"송요한","position":"전무","won":827000000},{"name":"김용민","position":"상무","won":739000000}],"emp":{"headcount":1027,"salary_won":108585000000,"avg_tenure":13.5,"avg_salary_won":105730282},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"이한솔","position":"차장","won":1817000000},{"name":"최용석","position":"부사장","won":961000000},{"name":"이대겸","position":"차장","won":800000000},{"name":"박성현","position":"부장","won":624000000},{"name":"최인준","position":"부장","won":575000000}],"emp":{"headcount":1091,"salary_won":90517000000,"avg_tenure":13,"avg_salary_won":82967003},"empStatus":"있음"}}},{"group":"증권","name":"교보증권","code":"00113359","periods":{"2024":{"status":"있음","persons":[{"name":"이이남","position":"상무","won":1930848000},{"name":"강은규","position":"전무","won":1494457000},{"name":"이선경","position":"부장","won":1055733000},{"name":"김우식","position":"상무","won":1014170000},{"name":"유승주","position":"이사","won":910569000}],"emp":{"headcount":966,"salary_won":123494687000,"avg_tenure":13.6,"avg_salary_won":127841291},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이이남","position":"상무","won":1805682000},{"name":"강은규","position":"부사장","won":1454863000},{"name":"최두희","position":"차장","won":1403629000},{"name":"임정규","position":"고문","won":1210706000},{"name":"박봉권","position":"대표이사","won":1161301000}],"emp":{"headcount":972,"salary_won":147864148000,"avg_tenure":14,"avg_salary_won":152123609},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"박봉권","position":"대표이사","won":886388000},{"name":"이석기","position":"대표이사","won":894015000}],"emp":{"headcount":973,"salary_won":105562950000,"avg_tenure":13.9,"avg_salary_won":108492240},"empStatus":"있음"}}},{"group":"증권","name":"신영증권","code":"00136721","periods":{"2024":{"status":"있음","persons":[{"name":"정헌기","position":"전무","won":1961000000},{"name":"원종석","position":"대표이사","won":1941000000},{"name":"전윤구","position":"상무","won":1860000000},{"name":"신혁진","position":"전무","won":1180000000},{"name":"이원술","position":"부장","won":971000000}],"emp":{"headcount":649,"salary_won":79265000000,"avg_tenure":8.4,"avg_salary_won":122134052},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정헌기","position":"부사장","won":1601000000},{"name":"원종석","position":"대표이사","won":1574000000},{"name":"전윤구","position":"전무","won":1465000000},{"name":"배준성","position":"전무","won":890000000},{"name":"황성엽","position":"대표이사","won":827000000}],"emp":{"headcount":663,"salary_won":79843000000,"avg_tenure":8.5,"avg_salary_won":120426848},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":686,"salary_won":26921000000,"avg_tenure":9.8,"avg_salary_won":39243440},"empStatus":"있음"}}},{"group":"증권","name":"다올투자증권","code":"00156859","periods":{"2024":{"status":"있음","persons":[{"name":"박신욱","position":"수석매니저","won":3313000000},{"name":"이병철","position":"회장","won":1608000000},{"name":"고윤석","position":"매니저","won":1597000000},{"name":"이창근","position":"부회장","won":1571000000},{"name":"이선범","position":"부사장","won":1383000000}],"emp":{"headcount":342,"salary_won":47719000000,"avg_tenure":4.5,"avg_salary_won":139529240},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"박신욱","position":"수석매니저","won":3919000000},{"name":"최동혁","position":"수석매니저","won":2863000000},{"name":"고윤석","position":"매니저","won":2653000000},{"name":"이병철","position":"회장","won":1809000000},{"name":"김요한","position":"수석매니저","won":1742000000}],"emp":{"headcount":344,"salary_won":58103000000,"avg_tenure":3.8,"avg_salary_won":168904070},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"이병철","position":"회장","won":1782000000}],"emp":{"headcount":368,"salary_won":31362000000,"avg_tenure":4.2,"avg_salary_won":85222826},"empStatus":"있음"}}},{"group":"증권","name":"상상인증권","code":"00112059","periods":{"2024":{"status":"있음","persons":[{"name":"유지훈","position":"상무","won":6870000000},{"name":"정우성","position":"부장","won":978000000},{"name":"박정훈","position":"차장","won":1286000000}],"emp":{"headcount":241,"salary_won":33722000000,"avg_tenure":7.5,"avg_salary_won":139925311},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"유지훈","position":"상무","won":3308000000},{"name":"정세영","position":"부장","won":947000000},{"name":"안채희","position":"과장","won":872000000},{"name":"정우성","position":"이사","won":834000000},{"name":"김민수","position":"차장","won":771000000}],"emp":{"headcount":224,"salary_won":27216000000,"avg_tenure":8.4,"avg_salary_won":121500000},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":238,"salary_won":11662000000,"avg_tenure":8.4,"avg_salary_won":49000000},"empStatus":"있음"}}},{"group":"증권","name":"리딩투자증권","code":"00323549","periods":{"2024":{"status":"있음","persons":[{"name":"고성수","position":"부장","won":1610000000},{"name":"홍한선","position":"부사장","won":1235000000},{"name":"김충호","position":"대표이사 총괄부회장","won":1154000000},{"name":"이종성","position":"상무","won":619000000},{"name":"온승용","position":"상무","won":610000000}],"emp":{"headcount":166,"salary_won":19659000000,"avg_tenure":2.2,"avg_salary_won":118427711},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김동훈","position":"부장","won":1484000000},{"name":"김병헌","position":"상무","won":1293000000},{"name":"김충호","position":"대표이사 총괄부회장","won":1235000000},{"name":"고성수","position":"이사대우","won":913000000},{"name":"이정근","position":"전무","won":773000000}],"emp":{"headcount":183,"salary_won":27395000000,"avg_tenure":3.4,"avg_salary_won":149699454},"empStatus":"있음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"증권","name":"부국증권","code":"00123772","periods":{"2024":{"status":"있음","persons":[{"name":"진현수","position":"차장","won":4138000000},{"name":"정원석","position":"부장","won":4076000000},{"name":"이승주","position":"이사보","won":2870000000},{"name":"홍정완","position":"前) 이사보","won":1575000000},{"name":"설동록","position":"상무","won":1499000000}],"emp":{"headcount":288,"salary_won":56350884000,"avg_tenure":7.4,"avg_salary_won":195662792},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정원석","position":"이사보","won":6016000000},{"name":"류찬열","position":"상무보","won":3407000000},{"name":"진현수","position":"차장","won":2854000000},{"name":"이승주","position":"상무보","won":2471000000},{"name":"설동록","position":"상무","won":2165000000}],"emp":{"headcount":288,"salary_won":62066444000,"avg_tenure":7,"avg_salary_won":215508486},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"류찬열","position":"상무보","won":7461000000}],"emp":{"headcount":291,"salary_won":40593945000,"avg_tenure":6.7,"avg_salary_won":139498093},"empStatus":"있음"}}},{"group":"증권","name":"한양증권","code":"00162416","periods":{"2024":{"status":"있음","persons":[{"name":"이준규","position":"센터장","won":2513000000},{"name":"이규진","position":"센터장","won":2397000000},{"name":"이동열","position":"상무대우부장","won":2016000000},{"name":"박성주","position":"상무대우부장","won":1682000000},{"name":"곽강현","position":"차장","won":1630000000}],"emp":{"headcount":510,"salary_won":79676000000,"avg_tenure":6.7,"avg_salary_won":156227451},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이규진","position":"센터장","won":3369000000},{"name":"임재택","position":"사장","won":3359000000},{"name":"이준규","position":"상무대우본부장","won":2263000000},{"name":"이동열","position":"상무대우부장","won":2028000000},{"name":"권도연","position":"부서장","won":1931000000}],"emp":{"headcount":459,"salary_won":90694000000,"avg_tenure":7.2,"avg_salary_won":197590414},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"윤재호","position":"상무","won":1081000000},{"name":"김재오","position":"이사대우","won":865000000},{"name":"장유진","position":"상무대우","won":804000000},{"name":"홍창모","position":"이사대우","won":784000000},{"name":"이규진","position":"상무대우","won":665000000}],"emp":{"headcount":458,"salary_won":46676000000,"avg_tenure":6.6,"avg_salary_won":101912664},"empStatus":"있음"}}},{"group":"증권","name":"LS증권","code":"00330424","periods":{"2024":{"status":"있음","persons":[{"name":"김영진","position":"상무","won":2151000000},{"name":"노현일","position":"상무보","won":1770000000},{"name":"박정민","position":"상무","won":1599000000},{"name":"이주한","position":"부사장","won":1393000000},{"name":"봉원석","position":"부사장","won":1345000000}],"emp":{"headcount":567,"salary_won":65397000000,"avg_tenure":5.6,"avg_salary_won":115338624},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"오응진","position":"전무","won":1767000000},{"name":"박정민","position":"상무","won":1320000000},{"name":"허정우","position":"상무보대우","won":1167000000},{"name":"이주한","position":"부사장","won":1069000000},{"name":"최용태","position":"이사","won":881000000}],"emp":{"headcount":572,"salary_won":65483000000,"avg_tenure":5.9,"avg_salary_won":114480769},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김원규","position":"前 대표이사","won":2515000000}],"emp":{"headcount":567,"salary_won":47615000000,"avg_tenure":6,"avg_salary_won":83977072},"empStatus":"있음"}}},{"group":"증권","name":"SK증권","code":"00131850","periods":{"2024":{"status":"있음","persons":[{"name":"이호근","position":"이사대우","won":2215000000},{"name":"조윤기","position":"상무","won":1265000000},{"name":"정준호","position":"대표이사","won":828000000},{"name":"윤보현","position":"상무보","won":806000000},{"name":"한정호","position":"글로벌사업부대표","won":727000000}],"emp":{"headcount":842,"salary_won":95985000000,"avg_tenure":null,"avg_salary_won":113996437},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이호근","position":"이사대우","won":1163000000},{"name":"한정호","position":"글로벌사업부 대표","won":909000000},{"name":"천경남","position":"부장대우","won":826000000},{"name":"최정용","position":"부장대우","won":658000000},{"name":"박근환","position":"상무보","won":599000000}],"emp":{"headcount":838,"salary_won":94564000000,"avg_tenure":null,"avg_salary_won":112844869},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"박태형","position":"고문","won":1679000000},{"name":"이호근","position":"미등기임원","won":1329000000},{"name":"오민영","position":"직원","won":1038000000},{"name":"박지환","position":"직원","won":800000000},{"name":"이현민","position":"직원","won":679000000}],"emp":{"headcount":849,"salary_won":75879000000,"avg_tenure":null,"avg_salary_won":89374558},"empStatus":"있음"}}},{"group":"자산운용","name":"미래에셋자산운용","code":"00259776","periods":{"2024":{"status":"있음","persons":[{"name":"최창훈","position":"부회장","won":2112000000},{"name":"이준용","position":"부회장","won":1290000000},{"name":"신동철","position":"전무","won":872000000},{"name":"김영환","position":"사장","won":833000000},{"name":"김남기","position":"부사장","won":772000000}],"emp":{"headcount":556,"salary_won":83865000000,"avg_tenure":6.3,"avg_salary_won":150836331},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"최창훈","position":"부회장","won":5482000000},{"name":"이준용","position":"부회장","won":1329000000},{"name":"김영환","position":"사장","won":1086000000},{"name":"김남기","position":"부사장","won":915000000},{"name":"신동철","position":"전무","won":800000000}],"emp":{"headcount":542,"salary_won":80467000000,"avg_tenure":7,"avg_salary_won":148463100},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":535,"salary_won":29795000000,"avg_tenure":5.9,"avg_salary_won":55691589},"empStatus":"있음"}}},{"group":"자산운용","name":"삼성자산운용","code":"00260453","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"한국투자신탁운용","code":"00324548","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"KB자산운용","code":"00104500","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"한화자산운용","code":"00243395","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"키움투자자산운용","code":"00120191","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"신한자산운용","code":"00243553","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"하나자산운용","code":"00326272","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"흥국자산운용","code":"00330725","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"우리자산운용","code":"00331478","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"엔에이치아문디자산운용","code":"00453804","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"현대자산운용","code":"00695394","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"마이다스자산운용","code":"00259208","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"미래에셋맵스자산운용","code":"00116082","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"한국투자밸류자산운용","code":"00564030","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"자산운용","name":"에셋플러스자산운용","code":"00336701","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"국민은행","code":"00104476","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"신한은행","code":"00137571","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"하나은행","code":"00156017","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"우리은행","code":"00254045","periods":{"2024":{"status":"있음","persons":[{"name":"조병규","position":"은행장","won":1068000000},{"name":"이동은","position":"부장대우","won":871000000},{"name":"정종오","position":"부장대우","won":862000000},{"name":"현철우","position":"부장대우","won":844000000},{"name":"신호원","position":"부장대우","won":835000000}],"emp":{"headcount":14329,"salary_won":1633717000000,"avg_tenure":16.9,"avg_salary_won":114014725},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김 창 윤","position":"부장대우","won":996000000},{"name":"서 성 웅","position":"부장대우","won":948000000},{"name":"유 기 덕","position":"부장대우","won":914000000},{"name":"정 성 욱","position":"부장대우","won":905000000},{"name":"임 현 정","position":"부장대우","won":901000000}],"emp":{"headcount":14203,"salary_won":1719409000000,"avg_tenure":16.3,"avg_salary_won":121059565},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"정진완","position":"은행장","won":829000000}],"emp":{"headcount":13996,"salary_won":991041000000,"avg_tenure":16.3,"avg_salary_won":70808874},"empStatus":"있음"}}},{"group":"은행","name":"기업은행","code":"00149646","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":13566,"salary_won":1206427000000,"avg_tenure":15.3,"avg_salary_won":88930193},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":13507,"salary_won":1272740000000,"avg_tenure":15.5,"avg_salary_won":94228178},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":13454,"salary_won":720007000000,"avg_tenure":15.6,"avg_salary_won":53516203},"empStatus":"있음"}}},{"group":"은행","name":"농협은행","code":"00908757","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"수협은행","code":"01190045","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"부산은행","code":"00124106","periods":{"2024":{"status":"있음","persons":[{"name":"신동학","position":"부장","won":1032000000},{"name":"임재형","position":"부장","won":1025000000},{"name":"강상호","position":"지점장","won":1003000000},{"name":"신미경","position":"지점장","won":985000000},{"name":"문영태","position":"지점장","won":975000000}],"emp":{"headcount":2988,"salary_won":347664000000,"avg_tenure":14.7,"avg_salary_won":116353414},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김현준","position":"상무대우","won":1244000000},{"name":"양경철","position":"지점장","won":1174000000},{"name":"이상헌","position":"지점장","won":1150000000},{"name":"강동호","position":"지점장","won":1138000000},{"name":"이영섭","position":"부장","won":1133000000}],"emp":{"headcount":2995,"salary_won":374816000000,"avg_tenure":15.2,"avg_salary_won":125147245},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":2996,"salary_won":223179000000,"avg_tenure":14.7,"avg_salary_won":74492323},"empStatus":"있음"}}},{"group":"은행","name":"경남은행","code":"00101363","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"광주은행","code":"00104078","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"전북은행","code":"00147295","periods":{"2024":{"status":"있음","persons":[{"name":"이해승","position":"前부장","won":766000000},{"name":"김해중","position":"前부부장","won":744000000},{"name":"김승용","position":"前부장","won":713000000},{"name":"백종일","position":"은행장","won":675000000},{"name":"박종구","position":"前영업점장","won":666000000}],"emp":{"headcount":1334,"salary_won":131948000000,"avg_tenure":11.7,"avg_salary_won":98911544},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"박종완","position":"前부행장","won":889000000},{"name":"백종일","position":"前은행장","won":815000000},{"name":"유진석","position":"前지점장","won":812000000},{"name":"강미정","position":"前부부장","won":750000000},{"name":"한기정","position":"前부부장","won":743000000}],"emp":{"headcount":1432,"salary_won":146929000000,"avg_tenure":11.3,"avg_salary_won":102604050},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"오승원","position":"상임감사위원","won":1138000000}],"emp":{"headcount":1462,"salary_won":84870000000,"avg_tenure":11,"avg_salary_won":58050616},"empStatus":"있음"}}},{"group":"은행","name":"제주은행","code":"00148832","periods":{"2024":{"status":"있음","persons":[{"name":"오영규","position":"본부장 (퇴직직원)","won":811000000},{"name":"김영직","position":"본부장 (퇴직직원)","won":810000000},{"name":"부정만","position":"부장 (퇴직직원)","won":800000000},{"name":"윤승용","position":"지점장 (퇴직직원)","won":747000000},{"name":"윤기찬","position":"지점장 (퇴직직원)","won":719000000}],"emp":{"headcount":437,"salary_won":37548000000,"avg_tenure":12.8,"avg_salary_won":85922197},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":480,"salary_won":39515000000,"avg_tenure":12.5,"avg_salary_won":82322917},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"이철민","position":"조사역(퇴직직원)","won":824000000},{"name":"강종철","position":"RM(퇴직직원)","won":694000000},{"name":"이효석","position":"전임감사자(퇴직직원)","won":670000000},{"name":"변석진","position":"조사역(퇴직직원)","won":649000000},{"name":"송천우","position":"전임감사자(퇴직직원)","won":554000000}],"emp":{"headcount":477,"salary_won":26308000000,"avg_tenure":12.4,"avg_salary_won":55153040},"empStatus":"있음"}}},{"group":"은행","name":"케이뱅크","code":"01203312","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":607,"salary_won":60002000000,"avg_tenure":3.8,"avg_salary_won":98850082},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"최우형","position":"은행장","won":521000000}],"emp":{"headcount":635,"salary_won":64591000000,"avg_tenure":4.4,"avg_salary_won":101718110},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":646,"salary_won":43019000000,"avg_tenure":4.5,"avg_salary_won":66592879},"empStatus":"있음"}}},{"group":"은행","name":"카카오뱅크","code":"01133217","periods":{"2024":{"status":"있음","persons":[{"name":"윤호영","position":"대표이사","won":1228000000},{"name":"김광옥","position":"부대표","won":1142000000},{"name":"이형주","position":"그룹장","won":878000000},{"name":"이철","position":"업무집행책임자 (퇴직임원)","won":675000000},{"name":"허재영","position":"업무집행책임자 (퇴직임원)","won":528000000}],"emp":{"headcount":1663,"salary_won":188395000000,"avg_tenure":3.7,"avg_salary_won":113286230},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김광옥","position":"부대표 (퇴직임원)","won":3211000000},{"name":"신희철","position":"업무집행책임자 (퇴직임원)","won":1411000000},{"name":"윤호영","position":"대표이사","won":1271000000},{"name":"이강원","position":"업무집행책임자 (퇴직임원)","won":686000000}],"emp":{"headcount":1806,"salary_won":216889000000,"avg_tenure":4.1,"avg_salary_won":120093577},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"윤호영","position":"대표이사","won":8175000000}],"emp":{"headcount":1843,"salary_won":114931000000,"avg_tenure":4.5,"avg_salary_won":62360825},"empStatus":"있음"}}},{"group":"은행","name":"토스뱅크","code":"01529195","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"씨티은행","code":"00175021","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}},{"group":"은행","name":"한국스탠다드차타드은행","code":"00148504","periods":{"2024":{"status":"있음","persons":[{"name":"김홍식","position":"부행장보","won":2381000000},{"name":"양정우","position":"부행장보","won":1981000000},{"name":"박종복","position":"은행장","won":1661000000},{"name":"이광희","position":"부행장","won":1435000000},{"name":"김민섭","position":"상무보","won":1285000000}],"emp":{"headcount":3551,"salary_won":402926000000,"avg_tenure":17.9,"avg_salary_won":113468319},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"박종복","position":"고문","won":3182000000},{"name":"김홍식","position":"부행장","won":2796000000},{"name":"이광희","position":"은행장","won":1886000000},{"name":"김근철","position":"상무보","won":1333000000},{"name":"이은모","position":"부행장","won":1240000000}],"emp":{"headcount":3352,"salary_won":389730000000,"avg_tenure":18,"avg_salary_won":116267900},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"이광희","position":"은행장 겸 대표이사","won":1801000000}],"emp":{"headcount":3358,"salary_won":254251000000,"avg_tenure":18.2,"avg_salary_won":75715009},"empStatus":"있음"}}},{"group":"캐피탈","name":"현대캐피탈","code":"00208514","periods":{"2024":{"status":"있음","persons":[{"name":"백연웅","position":"전무","won":2202000000},{"name":"목진원","position":"부사장","won":1322000000},{"name":"정형진","position":"사장","won":990000000},{"name":"신용호","position":"Senior Manager","won":988000000},{"name":"최재홍","position":"Senior Manager","won":874000000}],"emp":{"headcount":2145,"salary_won":246121000000,"avg_tenure":9,"avg_salary_won":114741725},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정형진","position":"사장","won":1624000000},{"name":"이형석","position":"전무","won":1243000000},{"name":"강동한","position":"Senior Manager","won":1014000000},{"name":"홍근배","position":"상무","won":973000000},{"name":"정성한","position":"Senior Manager","won":777000000}],"emp":{"headcount":2120,"salary_won":258983000000,"avg_tenure":11.3,"avg_salary_won":122161792},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"정형진","position":"사장","won":1843000000}],"emp":{"headcount":2119,"salary_won":151097000000,"avg_tenure":11.5,"avg_salary_won":71305805},"empStatus":"있음"}}},{"group":"캐피탈","name":"롯데캐피탈","code":"00222295","periods":{"2024":{"status":"있음","persons":[{"name":"추광식","position":"대표이사","won":688000000},{"name":"어관","position":"수석","won":526000000},{"name":"박병준","position":"자문","won":520000000},{"name":"이보영","position":"수석","won":518000000},{"name":"이장희","position":"책임","won":509000000}],"emp":{"headcount":448,"salary_won":41848000000,"avg_tenure":11.7,"avg_salary_won":93410714},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"추광식","position":"대표이사","won":694000000},{"name":"조찬희","position":"수석","won":584000000},{"name":"김선옥","position":"수석","won":519000000},{"name":"오명환","position":"수석","won":506000000}],"emp":{"headcount":441,"salary_won":43809000000,"avg_tenure":12.1,"avg_salary_won":99340136},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":431,"salary_won":18382000000,"avg_tenure":12.3,"avg_salary_won":42649652},"empStatus":"있음"}}},{"group":"캐피탈","name":"하나캐피탈","code":"00152932","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":423,"salary_won":26032000000,"avg_tenure":8.6,"avg_salary_won":61541371},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":465,"salary_won":28338000000,"avg_tenure":8.4,"avg_salary_won":60941935},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":469,"salary_won":15065000000,"avg_tenure":7.7,"avg_salary_won":32121535},"empStatus":"있음"}}},{"group":"캐피탈","name":"신한캐피탈","code":"00137456","periods":{"2024":{"status":"있음","persons":[{"name":"김찬경","position":"부장","won":1146000000},{"name":"강진성","position":"부장","won":1069000000},{"name":"이재용","position":"부장","won":1016000000},{"name":"이동훈","position":"부장","won":836000000},{"name":"한창헌","position":"부장","won":827000000}],"emp":{"headcount":282,"salary_won":35440000000,"avg_tenure":9,"avg_salary_won":125673759},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정운진","position":"퇴직임원(전 대표이사)","won":695000000},{"name":"유재수","position":"부장","won":504000000}],"emp":{"headcount":274,"salary_won":29787000000,"avg_tenure":9.4,"avg_salary_won":108711679},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"정운진","position":"대표이사(퇴임)","won":528000000}],"emp":{"headcount":275,"salary_won":17869000000,"avg_tenure":9.5,"avg_salary_won":64978182},"empStatus":"있음"}}},{"group":"캐피탈","name":"우리금융캐피탈","code":"00209443","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":545,"salary_won":51218000000,"avg_tenure":10.2,"avg_salary_won":93977982},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":533,"salary_won":52131000000,"avg_tenure":10.9,"avg_salary_won":97806754},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":533,"salary_won":28291000000,"avg_tenure":11.1,"avg_salary_won":53078799},"empStatus":"있음"}}},{"group":"캐피탈","name":"메리츠캐피탈","code":"00933504","periods":{"2024":{"status":"있음","persons":[{"name":"권태길","position":"대표이사 사장","won":13729000000},{"name":"김창영","position":"前 영업3본부장","won":1092000000},{"name":"배준수","position":"관리총괄","won":839000000},{"name":"김정섭","position":"영업1본부장","won":777000000},{"name":"홍석원","position":"경영지원본부장","won":715000000}],"emp":{"headcount":362,"salary_won":39184000000,"avg_tenure":6.3,"avg_salary_won":108243094},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"권태길","position":"대표이사 사장","won":2991000000},{"name":"홍석원","position":"前 경영지원본부장","won":1960000000},{"name":"김정섭","position":"前 영업1본부장","won":951000000},{"name":"배준수","position":"관리총괄","won":775000000}],"emp":{"headcount":360,"salary_won":36799000000,"avg_tenure":6.7,"avg_salary_won":102219444},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"권태길","position":"대표이사사장","won":1462000000}],"emp":{"headcount":387,"salary_won":25775000000,"avg_tenure":6.3,"avg_salary_won":66602067},"empStatus":"있음"}}},{"group":"캐피탈","name":"한국캐피탈","code":"00149594","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":276,"salary_won":22397691000,"avg_tenure":6.1,"avg_salary_won":81151054},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":285,"salary_won":24262724000,"avg_tenure":6.5,"avg_salary_won":85132365},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":340,"salary_won":15422140000,"avg_tenure":6,"avg_salary_won":45359235},"empStatus":"있음"}}},{"group":"캐피탈","name":"BNK캐피탈","code":"00844936","periods":{"2024":{"status":"있음","persons":[{"name":"김성주","position":"대표이사","won":516000000}],"emp":{"headcount":442,"salary_won":40239000000,"avg_tenure":9,"avg_salary_won":91038462},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김성주","position":"대표이사","won":520000000}],"emp":{"headcount":461,"salary_won":42816000000,"avg_tenure":9.2,"avg_salary_won":92876356},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":473,"salary_won":26536000000,"avg_tenure":8.9,"avg_salary_won":56101480},"empStatus":"있음"}}},{"group":"캐피탈","name":"DB캐피탈","code":"00229058","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":37,"salary_won":2928000000,"avg_tenure":4.7,"avg_salary_won":79135135},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":41,"salary_won":3213000000,"avg_tenure":4.8,"avg_salary_won":78365854},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":44,"salary_won":2229000000,"avg_tenure":5.1,"avg_salary_won":50659091},"empStatus":"있음"}}},{"group":"캐피탈","name":"산은캐피탈","code":"00260356","periods":{"2024":{"status":"있음","persons":[{"name":"정지영","position":"사후관리통제역","won":544000000}],"emp":{"headcount":263,"salary_won":31853000000,"avg_tenure":null,"avg_salary_won":121114068},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"유승준","position":"사후관리통제역","won":509000000}],"emp":{"headcount":269,"salary_won":32635000000,"avg_tenure":null,"avg_salary_won":121319703},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김선","position":"내부통제관리역","won":721000000}],"emp":{"headcount":266,"salary_won":20418000000,"avg_tenure":null,"avg_salary_won":76759398},"empStatus":"있음"}}},{"group":"캐피탈","name":"한국투자캐피탈","code":"01064272","periods":{"2024":{"status":"있음","persons":[{"name":"오우택","position":"대표이사","won":832000000}],"emp":{"headcount":164,"salary_won":12368000000,"avg_tenure":3.3,"avg_salary_won":75414634},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"오우택","position":"대표이사","won":760000000}],"emp":{"headcount":150,"salary_won":13092000000,"avg_tenure":3.6,"avg_salary_won":87280000},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":152,"salary_won":8426000000,"avg_tenure":4.1,"avg_salary_won":55434211},"empStatus":"있음"}}},{"group":"캐피탈","name":"현대커머셜","code":"00603278","periods":{"2024":{"status":"있음","persons":[{"name":"장병식","position":"전무","won":2560000000},{"name":"정태영","position":"대표이사","won":2033000000},{"name":"정명이","position":"사장","won":1887000000},{"name":"김근만","position":"상무","won":1762000000},{"name":"양용득","position":"Senior Manager","won":787000000}],"emp":{"headcount":496,"salary_won":53446000000,"avg_tenure":7.8,"avg_salary_won":107754032},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정태영","position":"대표이사","won":2184000000},{"name":"정명이","position":"사장","won":2097000000},{"name":"전시우","position":"대표이사","won":787000000},{"name":"양진우","position":"상무","won":620000000},{"name":"김선일","position":"상무","won":573000000}],"emp":{"headcount":491,"salary_won":56072000000,"avg_tenure":8.4,"avg_salary_won":114199593},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"정태영","position":"대표이사","won":1633000000},{"name":"정명이","position":"사장","won":1498000000},{"name":"전시우","position":"대표이사","won":720000000}],"emp":{"headcount":488,"salary_won":34659000000,"avg_tenure":8.7,"avg_salary_won":71022541},"empStatus":"있음"}}},{"group":"캐피탈","name":"애큐온캐피탈","code":"00595012","periods":{"2024":{"status":"없음","persons":[],"emp":{"headcount":179,"salary_won":14867000000,"avg_tenure":8.9,"avg_salary_won":83055866},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"이중무","position":"CEO","won":824000000},{"name":"김병진","position":"부사장","won":559000000}],"emp":{"headcount":183,"salary_won":16748000000,"avg_tenure":9,"avg_salary_won":91519126},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":183,"salary_won":10206000000,"avg_tenure":9.2,"avg_salary_won":55770492},"empStatus":"있음"}}},{"group":"캐피탈","name":"오릭스캐피탈코리아","code":"00502410","periods":{"2024":{"status":"있음","persons":[{"name":"정성윤","position":"대표이사","won":519000000}],"emp":{"headcount":292,"salary_won":19370000000,"avg_tenure":6.7,"avg_salary_won":66335616},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"정성윤","position":"대표이사","won":504000000}],"emp":{"headcount":298,"salary_won":19480000000,"avg_tenure":7.2,"avg_salary_won":65369128},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":281,"salary_won":9283000000,"avg_tenure":8.2,"avg_salary_won":33035587},"empStatus":"있음"}}},{"group":"지주","name":"KB금융지주","code":"00688996","periods":{"2024":{"status":"있음","persons":[{"name":"양종희","position":"회장","won":1848000000},{"name":"서영호","position":"부사장","won":792000000},{"name":"권봉중","position":"전무","won":605000000},{"name":"김상덕","position":"부장","won":509000000},{"name":"최철수","position":"부사장","won":504000000}],"emp":{"headcount":140,"salary_won":22571000000,"avg_tenure":3.9,"avg_salary_won":161221429},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"양종희","position":"회장","won":1890000000},{"name":"권봉중","position":"전무","won":1390000000},{"name":"강승호","position":"실장","won":536000000},{"name":"임대환","position":"부사장","won":524000000}],"emp":{"headcount":144,"salary_won":28098000000,"avg_tenure":3.7,"avg_salary_won":195125000},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"양종희","position":"회장","won":650000000}],"emp":{"headcount":137,"salary_won":16738000000,"avg_tenure":3.5,"avg_salary_won":122175182},"empStatus":"있음"}}},{"group":"지주","name":"신한지주","code":"00382199","periods":{"2024":{"status":"있음","persons":[{"name":"진옥동","position":"대표이사","won":1522000000},{"name":"왕호민","position":"부문장 (부사장)","won":671000000},{"name":"이인균","position":"부문장 (부사장)","won":631000000},{"name":"고석헌","position":"부문장 (부사장)","won":603000000},{"name":"방동권","position":"파트장 (부사장)","won":568000000}],"emp":{"headcount":185,"salary_won":31093000000,"avg_tenure":5.9,"avg_salary_won":168070270},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"진옥동","position":"대표이사","won":1297000000},{"name":"이인균","position":"부문장 (부사장)","won":847000000},{"name":"방동권","position":"파트장 (부사장)","won":802000000},{"name":"고석헌","position":"부문장 (부사장)","won":722000000},{"name":"천상영","position":"부문장 (부사장)","won":555000000}],"emp":{"headcount":195,"salary_won":34611000000,"avg_tenure":3.4,"avg_salary_won":177492308},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"진옥동","position":"대표이사","won":938000000}],"emp":{"headcount":197,"salary_won":19118000000,"avg_tenure":3.1,"avg_salary_won":97045685},"empStatus":"있음"}}},{"group":"지주","name":"하나금융지주","code":"00547583","periods":{"2024":{"status":"있음","persons":[{"name":"함영주","position":"現 대표이사 회장","won":2274000000},{"name":"이은형","position":"現 부회장","won":1545000000}],"emp":{"headcount":129,"salary_won":21366000000,"avg_tenure":3.2,"avg_salary_won":165627907},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"함영주","position":"대표이사 회장","won":2202000000},{"name":"이은형","position":"부회장","won":1129000000},{"name":"윤운성","position":"팀장","won":847000000},{"name":"박성환","position":"팀장","won":701000000},{"name":"이준혁","position":"부사장","won":683000000}],"emp":{"headcount":131,"salary_won":22483000000,"avg_tenure":3.4,"avg_salary_won":171625954},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"함영주","position":"現 대표이사 회장","won":1922000000},{"name":"이승열","position":"現 부회장","won":610000000}],"emp":{"headcount":132,"salary_won":13972000000,"avg_tenure":3.4,"avg_salary_won":105848485},"empStatus":"있음"}}},{"group":"지주","name":"우리금융지주","code":"01350869","periods":{"2024":{"status":"있음","persons":[{"name":"임종룡","position":"대표이사","won":1144000000},{"name":"이정섭","position":"상무","won":728000000},{"name":"박연호","position":"본부장","won":599000000},{"name":"이성욱","position":"부사장","won":596000000},{"name":"양기현","position":"본부장","won":549000000}],"emp":{"headcount":107,"salary_won":18851000000,"avg_tenure":3.3,"avg_salary_won":176177570},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"임종룡","position":"대표이사","won":1193000000},{"name":"이성욱","position":"부사장","won":674000000},{"name":"이정수","position":"부사장","won":600000000},{"name":"정찬호","position":"부사장","won":554000000}],"emp":{"headcount":114,"salary_won":19621000000,"avg_tenure":3,"avg_salary_won":172114035},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"임종룡","position":"대표이사","won":815000000}],"emp":{"headcount":124,"salary_won":13525000000,"avg_tenure":2.8,"avg_salary_won":109072581},"empStatus":"있음"}}},{"group":"지주","name":"BNK금융지주","code":"00858364","periods":{"2024":{"status":"있음","persons":[{"name":"빈대인","position":"회장","won":881000000}],"emp":{"headcount":120,"salary_won":19455000000,"avg_tenure":null,"avg_salary_won":162125000},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"빈대인","position":"회장","won":942000000}],"emp":{"headcount":121,"salary_won":20463000000,"avg_tenure":null,"avg_salary_won":169115702},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"빈대인","position":"회장","won":771000000}],"emp":{"headcount":120,"salary_won":12141000000,"avg_tenure":null,"avg_salary_won":101175000},"empStatus":"있음"}}},{"group":"지주","name":"iM금융지주","code":"00878915","periods":{"2024":{"status":"있음","persons":[{"name":"김태오","position":"前대표이사","won":1807000000}],"emp":{"headcount":126,"salary_won":15777000000,"avg_tenure":3.1,"avg_salary_won":125214286},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"황병우","position":"대표이사 회장","won":710000000},{"name":"이제태","position":"부장","won":1131000000},{"name":"김용","position":"실장","won":1118000000}],"emp":{"headcount":143,"salary_won":17425000000,"avg_tenure":3,"avg_salary_won":121853147},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"황병우","position":"대표이사","won":611000000}],"emp":{"headcount":140,"salary_won":9494000000,"avg_tenure":3,"avg_salary_won":67814286},"empStatus":"있음"}}},{"group":"지주","name":"JB금융지주","code":"00980122","periods":{"2024":{"status":"있음","persons":[{"name":"김기홍","position":"회장(사내이사)","won":2382000000},{"name":"임용택","position":"고문(前 부회장)","won":713000000},{"name":"송종욱","position":"고문(前 부회장)","won":587000000}],"emp":{"headcount":109,"salary_won":18729000000,"avg_tenure":3,"avg_salary_won":171825688},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김기홍","position":"회장(사내이사)","won":3782000000},{"name":"하범서","position":"前 부장","won":733000000},{"name":"허만길","position":"前 부장","won":716000000},{"name":"이승국","position":"전무","won":596000000},{"name":"권재중","position":"前 부사장","won":556000000}],"emp":{"headcount":108,"salary_won":19360000000,"avg_tenure":3.4,"avg_salary_won":179259259},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김기홍","position":"대표이사(회장)","won":2948000000}],"emp":{"headcount":104,"salary_won":13325000000,"avg_tenure":3.4,"avg_salary_won":128125000},"empStatus":"있음"}}},{"group":"지주","name":"메리츠금융지주","code":"00860332","periods":{"2024":{"status":"있음","persons":[{"name":"김용범","position":"대표이사 부회장","won":83270000000},{"name":"조정호","position":"사내이사 회장","won":2733000000},{"name":"이동진","position":"경영지원실장 부사장","won":1550000000},{"name":"최희문","position":"그룹운용부문장 부회장","won":836000000},{"name":"최연묵","position":"준법감시인 상무","won":806000000}],"emp":{"headcount":36,"salary_won":6951000000,"avg_tenure":3.7,"avg_salary_won":193083333},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"조정호","position":"사내이사 회장","won":3994000000},{"name":"이동진","position":"경영지원실장 부사장","won":3515000000},{"name":"김용범","position":"대표이사 부회장","won":2128000000},{"name":"최희문","position":"그룹부채부문장 및 그룹운용부문장 부회장","won":1450000000},{"name":"김상훈","position":"IR팀장","won":560000000}],"emp":{"headcount":38,"salary_won":9489000000,"avg_tenure":4.1,"avg_salary_won":249710526},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"조정호","position":"사내이사 회장","won":1999000000},{"name":"김용범","position":"대표이사 부회장","won":1181000000}],"emp":{"headcount":37,"salary_won":4822000000,"avg_tenure":4.2,"avg_salary_won":130324324},"empStatus":"있음"}}},{"group":"지주","name":"한국금융지주","code":"00432102","periods":{"2024":{"status":"있음","persons":[{"name":"김남구","position":"대표이사","won":870000000},{"name":"이강행","position":"부회장","won":1074000000},{"name":"오태균","position":"사장","won":1170000000},{"name":"이성원","position":"부사장","won":619000000},{"name":"정형문","position":"상무","won":1064000000}],"emp":{"headcount":87,"salary_won":14470000000,"avg_tenure":3.4,"avg_salary_won":166321839},"empStatus":"있음"},"2025":{"status":"있음","persons":[{"name":"김남구","position":"회장","won":1428000000},{"name":"오태균","position":"사장","won":1869000000},{"name":"이성원","position":"부사장","won":865000000},{"name":"이강행","position":"(前)부회장","won":7053000000},{"name":"윤형준","position":"고문","won":2424000000}],"emp":{"headcount":93,"salary_won":21507000000,"avg_tenure":3.6,"avg_salary_won":231258065},"empStatus":"있음"},"2026H1":{"status":"있음","persons":[{"name":"김남구","position":"회장","won":2444000000},{"name":"오태균","position":"사장","won":3309000000}],"emp":{"headcount":112,"salary_won":20624000000,"avg_tenure":2.9,"avg_salary_won":184142857},"empStatus":"있음"}}},{"group":"지주","name":"농협금융지주","code":"00908021","periods":{"2024":{"status":"있음","persons":[{"name":"이석준","position":"대표이사 회장","won":688000000}],"emp":{"headcount":200,"salary_won":29199000000,"avg_tenure":null,"avg_salary_won":145995000},"empStatus":"있음"},"2025":{"status":"없음","persons":[],"emp":{"headcount":200,"salary_won":29421000000,"avg_tenure":null,"avg_salary_won":147105000},"empStatus":"있음"},"2026H1":{"status":"없음","persons":[],"emp":{"headcount":202,"salary_won":14160000000,"avg_tenure":null,"avg_salary_won":70099010},"empStatus":"있음"}}},{"group":"지주","name":"산은금융지주","code":"00786979","periods":{"2024":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2025":{"status":"없음","persons":[],"emp":null,"empStatus":"없음"},"2026H1":{"status":"반기보고서 미확인","persons":[],"emp":null,"empStatus":"없음"}}}];
-const YEARS=[['all','전체'],['2024','2024 사업연도 (연간)'],['2025','2025 사업연도 (연간)'],['2026H1','2026 반기 (1~6월, 6개월치)']];
-const LABEL={'2024':'2024 사업연도','2025':'2025 사업연도','2026H1':'2026 반기(6개월)'};
-const TABS=['전체','증권','자산운용','은행','캐피탈','지주'];
-const SORTS=[['top','임원 최고 보수'],['avg','직원 1인 평균 급여'],['hc','직원 수']];
-let curV='exec', curY='all', curT='전체', curS='avg';
-const eok=w=>(w/1e8).toFixed(1);
-const mil=w=>(w/1e6).toLocaleString('ko-KR',{maximumFractionDigits:0});
-const fmtWon=w=>w.toLocaleString('ko-KR');
-const ten=t=>t==null?'-':t.toFixed(1)+'년';
-function periodsOf(y){return y==='all'?['2024','2025','2026H1']:[y];}
-function compsSel(){return DATA.filter(c=>curT==='전체'||c.group===curT);}
-function render(){
-  document.getElementById('yr').innerHTML=YEARS.map(([k,l])=>'<option value="'+k+'"'+(k===curY?' selected':'')+'>'+l+'</option>').join('');
-  document.getElementById('view').value=curV;
-  document.getElementById('sortwrap').innerHTML=curV==='co'?'<label for="so">정렬</label> <select id="so" onchange="setS(this.value)">'+SORTS.map(([k,l])=>'<option value="'+k+'"'+(k===curS?' selected':'')+'>'+l+'</option>').join('')+'</select>':'';
-  document.getElementById('tabs').innerHTML=TABS.map(k=>'<button class="tab'+(k===curT?' on':'')+'" onclick="setT(&quot;'+k+'&quot;)">'+k+'</button>').join('');
-  const comps=compsSel(), ps=periodsOf(curY), showP=curY==='all';
-  if(curV==='exec')renderExec(comps,ps,showP); else renderCo(comps,ps,showP);
-  renderCov(comps,ps);
+const SECT=['증권','자산운용','은행','캐피탈','지주'];
+const SLAB={증권:'증권사',자산운용:'자산운용사',은행:'은행',캐피탈:'캐피탈',지주:'금융지주'};
+const YEARS=[['all','전체'],['2024','2024'],['2025','2025'],['2026H1','2026 반기']];
+const PLAB={'2024':'2024','2025':'2025','2026H1':'2026 반기'};
+const VIEWS=[['exec','개인 보수 순위'],['co','회사별 종합']];
+const SORTS=[['avg','직원 1인 평균 급여'],['top','최고 보수'],['hc','직원 수']];
+const S0={v:'exec',y:'all',t:'전체',s:'avg',q:'',n:50};
+let S={...S0};
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eok=w=>(w/1e8).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const mil=w=>Math.round(w/1e6).toLocaleString('ko-KR');
+const num=n=>n==null?'-':n.toLocaleString('ko-KR');
+const periods=y=>y==='all'?['2024','2025','2026H1']:[y];
+const chip=g=>'<span class="chip" style="--sc:var(--c-'+g+')">'+SLAB[g]+'</span>';
+
+// ---------- state <-> URL hash ----------
+function readHash(){
+  const p=new URLSearchParams(location.hash.slice(1));
+  for(const k of ['v','y','t','s','q']){if(p.has(k))S[k]=p.get(k);}
+  if(!VIEWS.some(x=>x[0]===S.v))S.v='exec';
+  if(!YEARS.some(x=>x[0]===S.y))S.y='all';
+  if(S.t!=='전체'&&!SECT.includes(S.t))S.t='전체';
+  if(!SORTS.some(x=>x[0]===S.s))S.s='avg';
 }
-function renderExec(comps,ps,showP){
+function writeHash(){
+  const p=new URLSearchParams();
+  for(const k of ['v','y','t','s','q'])if(S[k]!==S0[k])p.set(k,S[k]);
+  const h=p.toString();
+  history.replaceState(null,'',h?'#'+h:location.pathname+location.search);
+}
+
+// ---------- controls ----------
+function seg(id,items,key){
+  $(id).innerHTML=items.map(([k,l])=>'<button type="button" data-k="'+k+'" aria-pressed="'+(S[key]===k)+'">'+l+'</button>').join('');
+  $(id).onclick=e=>{const b=e.target.closest('button');if(!b)return;S[key]=b.dataset.k;S.n=50;render();};
+}
+
+// ---------- data helpers ----------
+function persons(comps,ps){
   const rows=[];
-  comps.forEach(c=>ps.forEach(k=>{const p=c.periods[k];if(p&&p.persons)p.persons.forEach(x=>rows.push({...x,company:c.name,group:c.group,period:k}));}));
-  rows.sort((a,b)=>b.won-a.won);
-  const withData=comps.filter(c=>ps.some(k=>c.periods[k]&&c.periods[k].status==='있음')).length;
-  const top=rows[0];
-  document.getElementById('kpi').innerHTML=
-    '<div>대상 회사<b>'+comps.length+'곳</b></div><div>임원 공시 있음<b>'+withData+'곳</b></div><div>집계 임원 수<b>'+rows.length+'명</b></div>'+
-    '<div>최고 보수<b>'+(top?eok(top.won)+'억 ('+top.company+' '+top.name+', '+LABEL[top.period]+')':'-')+'</b></div>';
-  document.getElementById('ttl').textContent='개인 보수 랭킹 — DART에 개인별로 공시된 임원·직원 (보수총액 내림차순)';
-  document.getElementById('rank').innerHTML=rows.length?
-    '<table><thead><tr><th>순위</th><th>회사</th><th>업권</th>'+(showP?'<th>사업연도</th>':'')+'<th>성명</th><th>직위</th><th class="num">보수총액(억원)</th></tr></thead><tbody>'+
-    rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+r.company+'</td><td>'+r.group+'</td>'+(showP?'<td>'+LABEL[r.period]+'</td>':'')+'<td>'+r.name+'</td><td>'+r.position+'</td><td class="num"><b>'+eok(r.won)+'</b></td></tr>').join('')+'</tbody></table>'
-    :'<p class="muted">이 조건에 공시된 5억 이상 개인별 보수 데이터가 없습니다.</p>';
+  comps.forEach(c=>ps.forEach(k=>{const p=c.periods[k];(p&&p.persons||[]).forEach(x=>rows.push({...x,company:c.name,group:c.group,period:k}));}));
+  return rows;
 }
-function renderCo(comps,ps,showP){
+function matchQ(txt){return !S.q||txt.toLowerCase().includes(S.q.toLowerCase());}
+
+// ---------- render ----------
+function render(){
+  seg('seg-v',VIEWS,'v');seg('seg-y',YEARS,'y');
+  $('ctl-s').hidden=S.v!=='co';if(S.v==='co')seg('seg-s',SORTS,'s');
+  if($('q').value!==S.q)$('q').value=S.q;
+  const ps=periods(S.y);
+
+  // sector cards (respect year, ignore sector/search)
+  const all=persons(DATA,ps);
+  const cardHtml=(label,g,rows)=>{
+    const top=rows.length?Math.max(...rows.map(r=>r.won)):null;
+    const active=(g==='전체'&&S.t==='전체')||S.t===g;
+    return '<button type="button" class="sec'+(g==='전체'?' all':'')+'" data-g="'+g+'" aria-pressed="'+active+'"'+(g!=='전체'?' style="--sc:var(--c-'+g+')"':'')+'>'
+      +'<div class="nm">'+label+'</div><div class="big">'+(top!=null?eok(top):'-')+'<small>억 최고</small></div>'
+      +'<div class="sub">공시 '+rows.length+'명</div></button>';
+  };
+  $('sectors').innerHTML=cardHtml('전체','전체',all)+SECT.map(g=>cardHtml(SLAB[g],g,all.filter(r=>r.group===g))).join('');
+  $('sectors').onclick=e=>{const b=e.target.closest('.sec');if(!b)return;S.t=(S.t===b.dataset.g&&b.dataset.g!=='전체')?'전체':b.dataset.g;S.n=50;render();};
+
+  const comps=DATA.filter(c=>S.t==='전체'||c.group===S.t);
+  if(S.v==='exec')renderExec(comps,ps);else renderCo(comps,ps);
+  renderCov(comps,ps);
+  writeHash();
+}
+
+function renderExec(comps,ps){
+  let rows=persons(comps,ps).filter(r=>matchQ(r.company+' '+r.name+' '+r.position));
+  rows.sort((a,b)=>b.won-a.won);
+  const max=rows.length?rows[0].won:1;
+  const cos=new Set(rows.map(r=>r.company));
+  const med=rows.length?rows.map(r=>r.won).sort((a,b)=>a-b)[Math.floor(rows.length/2)]:null;
+  $('kpis').innerHTML=
+    kpi('집계 인원',rows.length+'명','')+kpi('해당 회사',cos.size+'곳','')+
+    kpi('최고 보수',rows.length?eok(rows[0].won)+'억':'-',rows.length?esc(rows[0].name):'')+
+    kpi('중앙값',med!=null?eok(med)+'억':'-','');
+  $('ttl').textContent='개인 보수 순위';
+  $('cnt').textContent=rows.length?('총 '+rows.length+'명 · 보수총액 내림차순'+(S.y==='all'?' · 연도 혼합':'')):'';
+  if(!rows.length){$('list').innerHTML='<div class="empty">조건에 맞는 공시 데이터가 없습니다.</div>';return;}
+  const show=rows.slice(0,S.n);
+  const yr=r=>'<span>'+(r.period==='2026H1'?'2026 반기':PLAB[r.period]+' 연간')+'</span>';
+  let h='<div class="row head"><div class="rk">순위</div><div>이름 · 직위</div><div>회사</div><div>사업연도</div><div style="text-align:right">보수총액 (억원)</div></div>';
+  h+=show.map((r,i)=>{
+    const m=i<3?' m'+(i+1):'';
+    return '<div class="row"><div class="rk"><i class="'+m.trim()+'">'+(i+1)+'</i></div>'
+      +'<div class="who"><b>'+esc(r.name)+'</b><span title="'+esc(r.position)+'">'+esc(r.position||'-')+'</span></div>'
+      +'<div class="co">'+esc(r.company)+chip(r.group)+'</div>'
+      +'<div class="yr">'+yr(r)+'</div>'
+      +'<div class="amt"><div class="bar"><i style="width:'+Math.max(3,Math.sqrt(r.won/max)*100).toFixed(1)+'%"></i></div><b>'+eok(r.won)+'<small>억</small></b></div></div>';
+  }).join('');
+  if(rows.length>show.length)h+='<div class="more"><button class="btn" id="more" type="button">더 보기 ('+(rows.length-show.length)+'명 남음)</button></div>';
+  $('list').innerHTML=h;
+  const mb=$('more');if(mb)mb.onclick=()=>{S.n+=50;renderExec(comps,ps);};
+}
+
+function renderCo(comps,ps){
   const rows=[];
   comps.forEach(c=>ps.forEach(k=>{
     const p=c.periods[k]||{};const per=p.persons||[];const e=p.emp;
     if(!per.length&&!e)return;
-    const top=per.length?Math.max(...per.map(x=>x.won)):null;
-    rows.push({company:c.name,group:c.group,period:k,n5:per.length,top,topName:per.length?per.reduce((a,b)=>a.won>=b.won?a:b).name:'',hc:e?e.headcount:null,avg:e?e.avg_salary_won:null,sal:e?e.salary_won:null,ten:e?e.avg_tenure:null});
+    if(!matchQ(c.name+' '+per.map(x=>x.name).join(' ')))return;
+    const topP=per.length?per.reduce((a,b)=>a.won>=b.won?a:b):null;
+    rows.push({c,k,n5:per.length,top:topP?topP.won:null,topName:topP?topP.name:'',hc:e?e.headcount:null,avg:e?e.avg_salary_won:null,sal:e?e.salary_won:null,ten:e?e.avg_tenure:null});
   }));
-  const key={top:r=>r.top||0,avg:r=>r.avg||0,hc:r=>r.hc||0}[curS];
+  const key={top:r=>r.top||0,avg:r=>r.avg||0,hc:r=>r.hc||0}[S.s];
   rows.sort((a,b)=>key(b)-key(a));
-  const withEmp=rows.filter(r=>r.hc!=null).length;
-  document.getElementById('kpi').innerHTML=
-    '<div>대상 회사<b>'+comps.length+'곳</b></div><div>직원 현황 있음<b>'+withEmp+'건</b></div><div>임원 공시 있음<b>'+rows.filter(r=>r.n5).length+'건</b></div>';
-  document.getElementById('ttl').textContent='회사별 종합 — '+SORTS.find(s=>s[0]===curS)[1]+' 기준 정렬';
-  document.getElementById('rank').innerHTML=rows.length?
-    '<table><thead><tr><th>순위</th><th>회사</th><th>업권</th>'+(showP?'<th>사업연도</th>':'')+'<th class="num">직원 수(명)</th><th class="num">1인 평균 급여(백만원)</th><th class="num">직원 급여총액(억원)</th><th class="num">평균 근속</th><th class="num">임원 집계(5억↑, 명)</th><th class="num">임원 최고 보수(억원)</th><th>최고 보수자</th></tr></thead><tbody>'+
-    rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+r.company+'</td><td>'+r.group+'</td>'+(showP?'<td>'+LABEL[r.period]+'</td>':'')+
-      '<td class="num">'+(r.hc!=null?r.hc.toLocaleString('ko-KR'):'-')+'</td><td class="num"><b>'+(r.avg!=null?mil(r.avg):'-')+'</b></td><td class="num">'+(r.sal!=null?eok(r.sal):'-')+'</td><td class="num">'+ten(r.ten)+'</td><td class="num">'+r.n5+'</td><td class="num">'+(r.top!=null?eok(r.top):'-')+'</td><td>'+(r.topName||'-')+'</td></tr>').join('')+'</tbody></table>'
-    :'<p class="muted">데이터가 없습니다.</p>';
+  const withEmp=rows.filter(r=>r.hc!=null);
+  const maxAvg=Math.max(1,...rows.map(r=>r.avg||0));
+  const topAvg=withEmp.length?withEmp.reduce((a,b)=>(a.avg||0)>=(b.avg||0)?a:b):null;
+  $('kpis').innerHTML=
+    kpi('집계 건수',rows.length+'건','')+kpi('직원 현황 있음',withEmp.length+'건','')+
+    kpi('평균 급여 1위',topAvg?mil(topAvg.avg)+'백만':'-',topAvg?esc(topAvg.c.name):'')+
+    kpi('최고 보수',(function(){const t=rows.filter(r=>r.top!=null).sort((a,b)=>b.top-a.top)[0];return t?eok(t.top)+'억':'-';})(),'');
+  $('ttl').textContent='회사별 종합 (임원 + 직원)';
+  $('cnt').textContent=rows.length?'총 '+rows.length+'건 · '+SORTS.find(x=>x[0]===S.s)[1]+' 순':'';
+  if(!rows.length){$('list').innerHTML='<div class="empty">조건에 맞는 공시 데이터가 없습니다.</div>';return;}
+  const show=rows.slice(0,S.n);
+  const yc=S.y==='all';
+  let h='<div class="tw"><table><thead><tr><th class="n">순위</th><th>회사</th>'+(yc?'<th>사업연도</th>':'')+'<th class="n">직원 수</th><th class="n">1인 평균 급여 (백만원)</th><th class="n">급여총액 (억)</th><th class="n">평균 근속</th><th class="n">개인 공시</th><th class="n">최고 보수 (억)</th><th>최고 보수자</th></tr></thead><tbody>';
+  h+=show.map((r,i)=>'<tr><td class="n">'+(i+1)+'</td><td><b>'+esc(r.c.name)+'</b> '+chip(r.c.group)+'</td>'+(yc?'<td class="yr"><span>'+PLAB[r.k]+'</span></td>':'')
+    +'<td class="n">'+num(r.hc)+'</td>'
+    +'<td class="n"><div class="mini">'+(r.avg!=null?'<div class="bar"><i style="width:'+Math.max(3,r.avg/maxAvg*100).toFixed(1)+'%"></i></div><b>'+mil(r.avg)+'</b>':'-')+'</div></td>'
+    +'<td class="n">'+(r.sal!=null?eok(r.sal):'-')+'</td><td class="n">'+(r.ten!=null?r.ten.toFixed(1)+'년':'-')+'</td>'
+    +'<td class="n">'+r.n5+'명</td><td class="n"><b>'+(r.top!=null?eok(r.top):'-')+'</b></td><td>'+esc(r.topName||'-')+'</td></tr>').join('');
+  h+='</tbody></table></div>';
+  if(rows.length>show.length)h+='<div class="more"><button class="btn" id="more" type="button">더 보기 ('+(rows.length-show.length)+'건 남음)</button></div>';
+  $('list').innerHTML=h;
+  const mb=$('more');if(mb)mb.onclick=()=>{S.n+=50;renderCo(comps,ps);};
 }
+
 function renderCov(comps,ps){
-  const head=curY==='all'?'공시 있는 사업연도 (임원 / 직원)':LABEL[curY]+' (임원 / 직원)';
-  const rows=comps.map(c=>{
-    const cells=ps.map(k=>{const p=c.periods[k]||{};const ex=p.status==='있음'?'임원 '+p.persons.length+'명':'임원 없음';const em=p.emp?'직원 '+p.emp.headcount.toLocaleString('ko-KR')+'명':'직원 없음';return {k,t:LABEL[k]+': '+ex+' / '+em,ok:p.status==='있음'||!!p.emp};});
-    const ok=cells.filter(x=>x.ok).map(x=>x.t);
-    return '<tr><td>'+c.group+'</td><td>'+c.name+'</td><td class="'+(ok.length?'':'st-no')+'">'+(ok.length?ok.join(' · '):'공시 없음/미확인')+'</td></tr>';
-  });
-  document.getElementById('cov').innerHTML='<table><thead><tr><th>업권</th><th>회사</th><th>'+head+'</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
+  let h='<table><thead><tr><th>회사</th>'+ps.map(k=>'<th>'+PLAB[k]+(k==='2026H1'?' (6개월)':' 연간')+'</th>').join('')+'</tr></thead><tbody>';
+  h+=comps.map(c=>'<tr><td><b>'+esc(c.name)+'</b> '+chip(c.group)+'</td>'+ps.map(k=>{
+    const p=c.periods[k]||{};const a=p.status==='있음',b=!!p.emp;
+    return '<td>'+(a?'<span class="pill ok">개인 '+p.persons.length+'명</span> ':'<span class="pill no">개인 없음</span> ')+(b?'<span class="pill ok">직원 '+num(p.emp.headcount)+'명</span>':'<span class="pill no">직원 없음</span>')+'</td>';
+  }).join('')+'</tr>').join('');
+  $('cov').innerHTML=h+'</tbody></table>';
 }
-function setV(k){curV=k;render();}
-function setY(k){curY=k;render();}
-function setT(k){curT=k;render();}
-function setS(k){curS=k;render();}
-render();
+
+function kpi(l,v,s){return '<div class="card kpi"><span>'+l+'</span><b>'+v+(s?'<small>'+s+'</small>':'')+'</b></div>';}
+
+// ---------- theme / share / search ----------
+function setTheme(t){document.documentElement.dataset.theme=t;$('theme').textContent=t==='dark'?'☀️ 라이트':'🌙 다크';try{localStorage.setItem('theme',t);}catch(e){}}
+(function(){let t=null;try{t=localStorage.getItem('theme');}catch(e){}
+  if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';setTheme(t);})();
+$('theme').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),1800);}
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);toast('링크를 복사했어요. 현재 조건 그대로 공유됩니다.');}catch(e){toast('주소창의 링크를 복사해 주세요.');}};
+let qt;$('q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{S.q=e.target.value.trim();S.n=50;render();},160);});
+window.addEventListener('hashchange',()=>{S={...S0};readHash();render();});
+
+readHash();render();
 </script>
-</body></html>
+</body>
+</html>
